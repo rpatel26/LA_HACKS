@@ -2,21 +2,51 @@
 from pygame import *
 import sys
 #sys.exit()
-file = 'sample_ogg.ogg'
+file = 'seagulls.ogg'
 command = 0
+volume_input = 0.5
+effect_1 = 'sample_ogg.ogg'
+
+Break_option = 0
+
 mixer.init()  # Initialize mixer
-mixer.music.load(file)  # Load the music file
+#mixer.Channel(0).load(file)  # Load the music file
 Playing = 1
-mixer.music.play()      # Play the music file
+mixer.Channel(0).play(mixer.Sound(file))      # Play the music file
 
 
-while mixer.music.get_busy():
+while mixer.Channel(0).get_busy():
+    # Pause and Play Effects
     glove_input = int(input("Pause or Play?"))
     command = glove_input
     if command:
         if Playing:
-            mixer.music.pause()
+            mixer.Channel(0).pause()
             Playing = 0
         else:
-            mixer.music.unpause()
+            mixer.Channel(0).unpause()
             Playing = 1
+
+    # Volume Up and Down Effects
+    volume_input = float(input("Input Volume Level"))
+    mixer.Channel(0).set_volume(volume_input)
+
+    # Fade Out Effect
+    fade_input = int(input("Fade out?"))  # Give 1 for fade out, 0 otherwise
+    if fade_input:
+        mixer.Channel(0).fadeout(2000)
+
+    # Drum Effects
+    drum_input = int(input("Drum Effect?"))
+    if drum_input:
+        mixer.Channel(1).play(mixer.Sound(effect_1))
+        mixer.Channel(1).set_volume(volume_input)
+
+    else:
+        mixer.Channel(1).play(mixer.Sound(effect_1))
+        mixer.Channel(1).set_volume(0)
+
+    #Functionality To Stop
+    Break_option = int(input("Break Option?"))
+    if Break_option:
+        break
