@@ -5,7 +5,8 @@ print "Testing Server Connection"
 
 s = socket.socket()
 # host = '128.54.175.128'	# needs to be in quote
-host = '100.82.252.58'
+# host = '100.82.252.58'
+host = '172.20.10.5'
 port = 1247
 s.connect( (host, port) )
 print s.recv(1024)
