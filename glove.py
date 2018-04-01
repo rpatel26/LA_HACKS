@@ -15,12 +15,14 @@ def read_data():
 	return int(my_integer) 
 
 from pygame import *
-#import time
 
 volume_input = 0.5
 song1 = 'seagulls.ogg'
 effect1 = 'sample_ogg.ogg'
 effect2 = 'john_cena.ogg'
+effect3 = '.ogg'
+effect4 = '.ogg'
+effect5 = '.ogg'
 
 number = 0
 ef_1 = False
@@ -44,7 +46,7 @@ stopEffect = False
 stopSong = False
 channel_no = 1
 song_array = (song1) 
-effect_array = (effect1, effect2)
+effect_array = (effect1, effect2, effect3, effect4, effect5)
 
 #Pause function
 def pause(channel_Number):
@@ -98,9 +100,11 @@ def digital(data):
 	elif data == 1001:
 		ef_3 = True
 	elif data == 1010:
-		ef_4 = Tru
+		ef_4 = True
 	elif data == 1011:
 		ef_5 = True
+	elif data == 1101:
+		isEffect = True
 	else:
 		number = int('data',2)
 		
@@ -134,14 +138,11 @@ while mixer.Channel(currentSong).get_busy():
 	if stopSong == True:
 		stop(currentSong)
 		stop(channel_no)				
-'''
-	i = 0
+	
 	if isEffect == True: 
 		new_effect(channel_no,effect(i))
-		i+=1
-		if i == 2:
-			i = 0
 		
-	if stopEffect == True:
-		stop(channel_no)    '''
+		
+	if stop_ef == True:
+		stop(channel_no)    
 	
