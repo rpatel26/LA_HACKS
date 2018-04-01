@@ -140,7 +140,16 @@ while mixer.Channel(currentSong).get_busy():
 		stop(channel_no)				
 	
 	if isEffect == True: 
-		new_effect(channel_no,effect(i))
+		if ef_1 == True:
+			new_effect(channel_no,effect[0])
+		elif ef_2 == True:
+			new_effect(channel_no, effect[1])
+		elif ef_3 == True:
+			new_effect(channel_no, effect[2])
+		elif ef_4 == True:
+			new_effect(channel_no, effect[3])
+		elif ef_5 == True:
+			new_effecct(channel_no, effect[4])
 		
 		
 	if stop_ef == True:
