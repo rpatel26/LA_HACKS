@@ -1,6 +1,8 @@
-'''import mraa
+import mraa
+import time
 
-gpio_array = [mraa.Gpio(23), mraa.Gpio(24), mraa.Gpio(25), mraa.Gpio(26), mraa.Gpio(27), mraa.Gpio(29), mraa.Gpio(30), mraa.Gpio(31),mraa.Gpio(32), mraa.Gpio(33)] 
+led = mraa.Gpio(36)
+#gpio_array = [mraa.Gpio(23), mraa.Gpio(24), mraa.Gpio(25), mraa.Gpio(26), mraa.Gpio(27), mraa.Gpio(29), mraa.Gpio(30), mraa.Gpio(31),mraa.Gpio(32), mraa.Gpio(33)] 
 
 for i in gpio_array:
 	i.dir(mraa.DIR_IN)
@@ -10,7 +12,7 @@ def read_data():
 	for i in gpio_array:
 		data.append(i.read())
 	my_integer = "".join(map(str,data))
-	return int(my_integer) '''
+	return int(my_integer) 
 
 from pygame import *
 #import time
@@ -107,11 +109,11 @@ def digital(data):
 
 while mixer.Channel(currentSong).get_busy():
 	#calling the digital function	
-	#digital(read_data())
+	digital(read_data())
 	if number <618 & number>12 :
 		volume_input = number/606
 	else:
-		time_in = 3000 + (number/)*4000	
+		time_in = 3000 + (number/406)*4000	
 
 	# Pause function
 	if isPause == True:
