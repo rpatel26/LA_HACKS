@@ -1,8 +1,15 @@
 import mraa
 import time
 
-led = mraa.Gpio(36)
-#gpio_array = [mraa.Gpio(23), mraa.Gpio(24), mraa.Gpio(25), mraa.Gpio(26), mraa.Gpio(27), mraa.Gpio(29), mraa.Gpio(30), mraa.Gpio(31),mraa.Gpio(32), mraa.Gpio(33)] 
+
+gpio_array = [mraa.Gpio(23), mraa.Gpio(24), mraa.Gpio(25), mraa.Gpio(26), mraa.Gpio(27), mraa.Gpio(29), mraa.Gpio(30), mraa.Gpio(31),mraa.Gpio(32), mraa.Gpio(33)] 
+
+test = mraa.Gpio(34)
+test.dir(mraa.DIR_OUT)
+
+while True:
+    print(test.write(1))
+
 
 for i in gpio_array:
 	i.dir(mraa.DIR_IN)
@@ -19,10 +26,10 @@ from pygame import *
 volume_input = 0.5
 song1 = 'seagulls.ogg'
 effect1 = 'sample_ogg.ogg'
-effect2 = 'john_cena.ogg'
-effect3 = '.ogg'
-effect4 = '.ogg'
-effect5 = '.ogg'
+effect2 = 'Clickz.ogg'
+effect3 = 'Badum-tss.ogg'
+effect4 = 'BeatDrop.ogg'
+effect5 = 'Echoes.ogg'
 
 number = 0
 ef_1 = False
@@ -36,7 +43,6 @@ fade_on = False
 stop_ef = False
 
 time_in = 0
-Break_option = 0
 currentSong = 0 
 mixer.init()  # Initialize mixer
 isPause = False
@@ -106,7 +112,7 @@ def digital(data):
 	elif data == 1101:
 		isEffect = True
 	else:
-		number = int('data',2)
+		number = int(str(data),2)
 		
 		
 
@@ -114,31 +120,38 @@ def digital(data):
 while mixer.Channel(currentSong).get_busy():
 	#calling the digital function	
 	digital(read_data())
-	if number <618 & number>12 :
-		volume_input = number/606
+	if number <518 & number>12 :
+		volume_input = number/506
 	else:
-		time_in = 3000 + (number/406)*4000	
+		time_in = 3000 + (number/506)*4000
 
 	# Pause function
 	if isPause == True:
 		pause(currentSong)
+                isPause = False
+                print "pause"
 
 	if isPlay == True:
 		play(currentSong)
+                isPlay = False
+                print "play"
    
 	if vol_on == True:
-		changeVolume(currentSong, volume_input)      
+		changeVolume(currentSong, volume_input)
+                print "changing volume"
 
 	if vol_off == True:
 		vol_on = False		
 		
 	if fade_on == True:
 		fadeOut(curentSong,time_in)    #amount by which you bend the flex sensor --> inversely proportonal to the time it takes to fade
+                print "fading"
 
 	if stopSong == True:
 		stop(currentSong)
 		stop(channel_no)				
-	
+                print "stop song"
+
 	if isEffect == True: 
 		if ef_1 == True:
 			new_effect(channel_no,effect[0])
