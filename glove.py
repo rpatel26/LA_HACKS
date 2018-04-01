@@ -4,81 +4,75 @@ import time
 #sys.exit()
 
 volume_input = 0.5
+song1 = 'seagulls.ogg'
+effect1 = 'sample_ogg.ogg'
+effect2 = 'john_cena.ogg'
 
-def pause(song):
-	mixer.Channel(song).pause()
-
-def play(song):
-	mixer.Channel(song).unpause()
-
-def changeVolume(song, value):
-	mixer.Channel(song).set_volume(value)
-        volume_value = value
-
-
-def fadeOut(song, value):
-	mixer.Channel(song).fadeout(value)
-
-def drumEffect(song, preVolume, fileName):
-	mixer.Channel(song).play(mixer.Sound(fileName))
-        mixer.Channel(song).set_volume(int(preVolume/2))
-
-def stop(song):
-	mixer.Channel(song).set_volume(0)
-
-
-file1 = 'Swedish_1_ogg.ogg'
-#command = 0
-effect_1 = 'happy_ogg.ogg'
-
+time_in = 0
 Break_option = 0
-currentSong = 0
+currentSong = 0 
 mixer.init()  # Initialize mixer
-#mixer.Channel(0).load(file)  # Load the music file
-Playing = 1
-mixer.Channel(currentSong).play(mixer.Sound(file1))      # Play the music file
+playing = 1
+isPause = False
+isEffect = False
+stopEffect = False
+stopSong = False
+channel_no = 1
+song_array = (song1) 
+effect_array = (effect1, effect2)
+
+#Pause toggle function
+def toggle_pause(channel_Number):
+	if playing==1:
+		mixer.Channel(channel_Number).pause()
+		playing = 0
+	else :
+		mixer.Channel(channel_Number).unpause()
+		playing = 1
+
+#Volume control function - analog data 
+def changeVolume(channel_Number, vol):
+	mixer.Channel(channel_Number).set_volume(vol)
+	volume_input = vol
+
+#fade out function - boolean and analog fade/no fade
+def fadeOut(channel_Number, time1):
+	mixer.Channel(channel_Number).fadeout(time1)
+
+#add effect function
+def new_effect(channel_Number, fileName):
+	mixer.Channel(channel_Number).play(mixer.Sound(fileName))
+	mixer.Channel(channel_Number).set_volume(int(volume_input/2))
+
+#complete stop of song playing funciton
+def stop(channel_Number):
+	mixer.Channel(channel_Number).stop()
+
+mixer.Channel(currentSong).play(mixer.Sound(song1))      # Play the music file
 
 
-
-while mixer.Channel(0).get_busy():
-    # Pause and Play Effects
-    if pause == True:
-        pause(currentSong)
-        time.sleep(3)
-        pause = False
-    else:
-        play(currentSong)
-        time.sleep(3)
-        pause = True
+while mixer.Channel(currentSong).get_busy():
+	# Pause toggle
+	if isPause == True:
+		toggle_pause(currentSong)
    
-
-    changeVolume(currentSong, int(volume_input/2))    
-   
-    # Volume Up and Down Effects
-    volume_input = float(input("Input Volume Level"))
-    mixer.Channel(0).set_volume(volume_input)
-
-    # Fade Out Effect
-    fade_input = int(input("Fade out?"))  # Give 1 for fade out, 0 otherwise
-    if fade_input:
-        mixer.Channel(0).fadeout(5000)
-
-    # Drum Effects
-    drum_input = int(input("Add second song?"))
-    if drum_input:
-        mixer.Channel(1).play(mixer.Sound(effect_1))
-        mixer.Channel(1).set_volume(volume_input)
-
-    else:
-        mixer.Channel(1).play(mixer.Sound(effect_1))
-        mixer.Channel(1).set_volume(0)
-
-    #Functionality To Stop
-    Break_option = int(input("Break Option?"))
-    if Break_option == 1:
-        break
-    else:
-        continue
-
+	changeVolume(currentSong, volume_input)    
+  
+	if time_in>= 2000: 
+		fadeOut(currentSong,time_in)    #amount by which you bend the flex sensor --> inversely proportonal to the time it takes to fade
+		
+	i = 0
+	if isEffect == True: 
+		new_effect(channel_no,effect(i))
+		i+=1
+		if i == 2:
+			i = 0
+		
+	if stopEffect == True:
+		stop(channel_no)
+	
+	if stopSong == True:
+		stop(currentSong)
+		stop(channel_no)
 
 
