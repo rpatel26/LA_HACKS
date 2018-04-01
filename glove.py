@@ -1,58 +1,59 @@
 from pygame import *
 #import sys
+import time
 #sys.exit()
 
+volume_input = 0.5
+
 def pause(song):
-	print "pause song"
 	mixer.Channel(song).pause()
 
 def play(song):
-	print "Play song"
 	mixer.Channel(song).unpause()
 
 def changeVolume(song, value):
-	print "volume up"
 	mixer.Channel(song).set_volume(value)
+        volume_value = value
 
 
 def fadeOut(song, value):
-	print "fade out effects"
 	mixer.Channel(song).fadeout(value)
 
-def drumEffect():
-	print "drum effects"
+def drumEffect(song, preVolume, fileName):
+	mixer.Channel(song).play(mixer.Sound(fileName))
+        mixer.Channel(song).set_volume(int(preVolume/2))
 
 def stop(song):
-	print "stop playing"
 	mixer.Channel(song).set_volume(0)
 
 
-file = 'Swedish_1_ogg.ogg'
-command = 0
-volume_input = 0.5
+file1 = 'Swedish_1_ogg.ogg'
+#command = 0
 effect_1 = 'happy_ogg.ogg'
 
 Break_option = 0
-
+currentSong = 0
 mixer.init()  # Initialize mixer
 #mixer.Channel(0).load(file)  # Load the music file
 Playing = 1
-mixer.Channel(0).play(mixer.Sound(file))      # Play the music file
+mixer.Channel(currentSong).play(mixer.Sound(file1))      # Play the music file
 
 
 
 while mixer.Channel(0).get_busy():
     # Pause and Play Effects
-    glove_input = int(input("Pause or Play?"))
-    command = glove_input
-    if command:
-        if Playing:
-            mixer.Channel(0).pause()
-            Playing = 0
-        else:
-            mixer.Channel(0).unpause()
-            Playing = 1
+    if pause == True:
+        pause(currentSong)
+        time.sleep(3)
+        pause = False
+    else:
+        play(currentSong)
+        time.sleep(3)
+        pause = True
+   
 
+    changeVolume(currentSong, int(volume_input/2))    
+   
     # Volume Up and Down Effects
     volume_input = float(input("Input Volume Level"))
     mixer.Channel(0).set_volume(volume_input)
