@@ -1,11 +1,11 @@
 
 from pygame import *
-import sys
+#import sys
 #sys.exit()
-file = 'seagulls.ogg'
+file = 'Swedish_1_ogg.ogg'
 command = 0
 volume_input = 0.5
-effect_1 = 'sample_ogg.ogg'
+effect_1 = 'happy_ogg.ogg'
 
 Break_option = 0
 
@@ -34,10 +34,10 @@ while mixer.Channel(0).get_busy():
     # Fade Out Effect
     fade_input = int(input("Fade out?"))  # Give 1 for fade out, 0 otherwise
     if fade_input:
-        mixer.Channel(0).fadeout(2000)
+        mixer.Channel(0).fadeout(5000)
 
     # Drum Effects
-    drum_input = int(input("Drum Effect?"))
+    drum_input = int(input("Add second song?"))
     if drum_input:
         mixer.Channel(1).play(mixer.Sound(effect_1))
         mixer.Channel(1).set_volume(volume_input)
@@ -48,5 +48,7 @@ while mixer.Channel(0).get_busy():
 
     #Functionality To Stop
     Break_option = int(input("Break Option?"))
-    if Break_option:
+    if Break_option == 1:
         break
+    else:
+        continue
